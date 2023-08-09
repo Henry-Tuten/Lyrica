@@ -4,6 +4,7 @@ from torch.nn import functional as F
 import pandas as pd
 from tqdm import tqdm
 from GPTLanguageModel import GPTLanguageModel
+
 # from functions import get_batch, estimate_loss
 
 #pass arguments into gptmodel upon instantiation
@@ -15,6 +16,7 @@ learning_rate = 3e-4
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print(torch.cuda.is_available())
 eval_iters = 200
+# dimensionality of the embeddings
 n_embd = 384
 n_head = 6
 n_layer = 6
