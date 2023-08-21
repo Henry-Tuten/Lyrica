@@ -8,18 +8,18 @@ from GPTLanguageModel import GPTLanguageModel
 # from functions import get_batch, estimate_loss
 
 #pass arguments into gptmodel upon instantiation
-batch_size = 64 # how many independent sequences will we process in parallel?
+batch_size =  64 #64  how many independent sequences will we process in parallel?
 block_size = 256 # what is the maximum context length for predictions?
-max_iters = 5000
+max_iters = 1500
 eval_interval = 500
-learning_rate = 3e-4
+learning_rate = 5e-4 #3e-4
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print(torch.cuda.is_available())
 eval_iters = 200
 # dimensionality of the embeddings
 n_embd = 384
-n_head = 6
-n_layer = 6
+n_head = 7
+n_layer = 7
 dropout = 0.2
 
 # take the lines from first_25000 lyrics column 
@@ -30,11 +30,11 @@ torch.manual_seed(1337)
 
 print("Reading and processing the CSV file")
 # Read the CSV file
-filename = 'data/processed/first_25000_lines.csv'
+filename = 'data/processed/eighth_1.csv'
 data_csv = pd.read_csv(filename)
 
-# Extract the lyrics column
-lyrics_list = data_csv['lyrics'].tolist()
+# Extract the lyrics column (now combined)
+lyrics_list = data_csv['combined'].tolist()
 
 # Concatenate all the lyrics together
 text = "\n".join(str(lyric) for lyric in lyrics_list)
@@ -89,6 +89,8 @@ print("Loading the model")
 # vocab_size, n_embd, block_size, n_head, n_layer, dropout, device
 model = GPTLanguageModel(vocab_size, n_embd, block_size, n_head, n_layer, dropout)
 
+#model.load_state_dict(torch.load("src/models/GPT_Style/char_tokens/gpt2_style_master.pth"))
+
 m = model.to(device)
 
 # print the number of parameters in the model
@@ -97,7 +99,7 @@ print(sum(p.numel() for p in m.parameters())/1e6, 'M parameters')
 # create a PyTorch optimizer
 optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
 
-save_path = 'src/models/gpt2_style_model100k.pth'
+save_path = 'src/models/gpt2_style_master.pth'
 
 
     
